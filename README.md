@@ -43,6 +43,35 @@ make all
 make run
 ```
 
+### Running in VSCode (after cloning with GitHub Desktop)
+
+**Prerequisites**
+
+1. Install **JDK 21** (Temurin / Adoptium recommended) and verify with `java -version`.
+2. In VSCode, install the **Extension Pack for Java** by Microsoft. This bundles the Java language server, debugger, and Maven for Java support.
+
+**Open the project**
+
+1. After cloning in GitHub Desktop, choose `Repository` → `Open in Visual Studio Code` (shortcut: `Ctrl+Shift+A`).
+2. When VSCode opens the folder, it will detect `pom.xml` and start importing the Maven project. Wait until dependency resolution completes (progress is shown in the bottom status bar).
+
+**Run the app**
+
+Open the integrated terminal (`` Ctrl+` ``) and use the bundled Maven wrapper — no global Maven install needed:
+
+```
+./mvnw clean javafx:run        # macOS / Linux
+mvnw.cmd clean javafx:run      # Windows
+```
+
+The main class `com.example.ParkingSimulator.Main` is already configured in `pom.xml`, so the JavaFX window will launch automatically.
+
+**Troubleshooting**
+
+* If you see `release version 21 not supported`, your JDK is older than 21 — install JDK 21 and set it as the workspace JDK (`Ctrl+Shift+P` → `Java: Configure Java Runtime`).
+* If JavaFX classes can't be resolved, run `./mvnw clean install` once to populate the local Maven cache, then reload the VSCode window (`Ctrl+Shift+P` → `Developer: Reload Window`).
+* If `./mvnw` fails with `Could not find or load main class org.apache.maven.wrapper.MavenWrapperMain` or a missing `.mvn/wrapper/maven-wrapper.properties`, the wrapper files weren't checked out. Either pull the latest from this branch (the `.mvn/` directory is committed) or, if you have Maven installed locally, run `mvn -N wrapper:wrapper -Dtype=script` to regenerate them. As a fallback, just use a global `mvn` install: `mvn clean javafx:run`.
+
 ## Usage:
 Upon running the application, you will be prompted to:
 
